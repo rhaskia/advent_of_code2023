@@ -6,7 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-itertools = { workspace = true }
-nom = { workspace = true }
-tracing = { workspace = true }
-tracing-subscriber = { workspace = true }
+
+[profile.release]
+opt-level = 3
+lto = true
+panic = "abort"

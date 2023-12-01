@@ -13,38 +13,41 @@ fn main() {
 
 fn first_n(s: &str, numbers: &Vec<&str>) -> u32 {
     for i in 0..s.len() {
-        let nth_char = s.chars().nth(i).unwrap_or(' ');
-        if nth_char.is_digit(10)
-        { return nth_char.to_digit(10).unwrap(); }
-
-        for j in 0..10 {
-            let n = numbers[j];
-            let end = i + n.len();
-
-            if end > s.len() { continue; }
-
-            if s[i..end] == *n { return j as u32; }
+        let c = s.chars().nth(i).unwrap_or(' ');
+        match c.to_digit(10) {
+            Some(d) => return d,
+            None => {},
         }
-    }
 
+        let value = numbers.iter().enumerate().position(|(_, n)| {
+            let end = i + n.len();
+            end <= s.len() && s[i..end] == **n
+        });
+
+        match value {
+           None =>  {},
+           Some(t) => return t as u32,
+        };
+    }
     0
 }
 
 fn last_n(s: &str, numbers: &Vec<&str>) -> u32 {
     for i in (0..s.len()).rev() {
-        let nth_char = s.chars().nth(i).unwrap_or(' ');
-        if nth_char.is_digit(10)
-        { return nth_char.to_digit(10).unwrap(); }
-
-        for j in 0..10 {
-            let n = numbers[j];
-
-            if n.len() > i { continue; }
-
-            if s[i - n.len()..i] == *n {
-                return j as u32;
-            }
+        let c = s.chars().nth(i).unwrap_or(' ');
+        match c.to_digit(10) {
+            Some(d) => return d,
+            None => {},
         }
+
+        let value = numbers.iter().enumerate().position(|(_, n)| {
+            n.len() <= i && s[i-n.len()..i] == **n
+        });
+
+        match value {
+            None =>  {},
+            Some(t) => return t as u32,
+        };
     }
 
     0
