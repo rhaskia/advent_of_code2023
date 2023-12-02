@@ -1,7 +1,9 @@
 fn main() {
     let input = include_str!("input1.txt");
 
-    let numbers: Vec<&str> = vec!["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", ];
+    let numbers: Vec<&str> = vec![
+        "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+    ];
     let values = input
         .split("\n")
         .into_iter()
@@ -16,7 +18,7 @@ fn first_n(s: &str, numbers: &Vec<&str>) -> u32 {
         let c = s.chars().nth(i).unwrap_or(' ');
         match c.to_digit(10) {
             Some(d) => return d,
-            None => {},
+            None => {}
         }
 
         let value = numbers.iter().enumerate().position(|(_, n)| {
@@ -25,8 +27,8 @@ fn first_n(s: &str, numbers: &Vec<&str>) -> u32 {
         });
 
         match value {
-           None =>  {},
-           Some(t) => return t as u32,
+            None => {}
+            Some(t) => return t as u32,
         };
     }
     0
@@ -37,15 +39,16 @@ fn last_n(s: &str, numbers: &Vec<&str>) -> u32 {
         let c = s.chars().nth(i).unwrap_or(' ');
         match c.to_digit(10) {
             Some(d) => return d,
-            None => {},
+            None => {}
         }
 
-        let value = numbers.iter().enumerate().position(|(_, n)| {
-            n.len() <= i && s[i-n.len()..i] == **n
-        });
+        let value = numbers
+            .iter()
+            .enumerate()
+            .position(|(_, n)| n.len() <= i && s[i - n.len()..i] == **n);
 
         match value {
-            None =>  {},
+            None => {}
             Some(t) => return t as u32,
         };
     }
